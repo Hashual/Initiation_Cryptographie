@@ -41,4 +41,13 @@ def hachagePrimitif(chain1: str, chain2: str, passwordLenght : int) -> str:
 
     return mot_de_passe
 
+def lire_mdp_maitre_csv(fichier_csv):
+    if os.path.exists(fichier_csv):
+        with open(fichier_csv, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                return row['mot_de_passe_maitre']  # Retourner le mot de passe maître trouvé
+    return None
+
+
 
