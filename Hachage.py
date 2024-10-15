@@ -58,6 +58,11 @@ def ecrire_mdp_maitre_csv(fichier_csv, mdp_maitre):
         writer.writeheader()
         writer.writerow({'mot_de_passe_maitre': mdp_maitre, 'tag': '', 'date_modification': '2024-10-15'})
 
-
-
+def demander_nouveau_mdp_maitre():
+    while True:
+        nouveau_mdp = input("Entrez un nouveau mot de passe maître (pas d'espaces) : ").strip()
+        if ' ' in nouveau_mdp:
+            print("Le mot de passe maître ne peut pas contenir d'espaces.")
+        else:
+            return nouveau_mdp
 
