@@ -6,42 +6,42 @@ import os
 # Liste complète des caractères autorisés (lettres, chiffres et caractères spéciaux)
 invisibles = [" ", "\t", "\n", " "]
 letters = list(string.ascii_letters)
-chiffres = list(string.digits)
-caracteres_speciaux = list(string.punctuation)
-liste_complete = letters + chiffres + caracteres_speciaux
+digits = list(string.digits)
+special_characters = list(string.punctuation)
+full_list = letters + digits + special_characters
 
 def deletInvisibleChar(chain: str) -> str:
     for element in invisibles:
         chain = chain.replace(element, "")
     return chain
 
-def hachagePrimitif(chain1: str, chain2: str, passwordLenght : int) -> str:
+def Primitive_hash(master_password : str,chain: str, password_lenght : int) -> str:
     BYTES_PER_HEX_PAIR = 2
     HEX_BASE = 16
-    taille_liste = len(liste_complete)
-    mot_de_passe = ""
+    lenght_list = len(full_list)
+    password = ""
 
-    concatene = chain1 + chain2
-    caracteres = deletInvisibleChar(concatene)
-    if caracteres != concatene:
+    concatenate = master_password + chain
+    characters = deletInvisibleChar(concatenate)
+    if characters != concatenate:
         print("Des caractères invisibles ont été supprimés")
     
     
     # Calculer le hash SHA-256
-    fonctionHachage = hashlib.sha256()
-    fonctionHachage.update(caracteres.encode('utf-8'))
-    hash_hex = fonctionHachage.hexdigest()  # Le hash en hexadécimal (64 caractères)
+    hash_function = hashlib.sha256()
+    hash_function.update(characters.encode('utf-8'))
+    hash_hex = hash_function.hexdigest()  # Le hash en hexadécimal (64 caractères)
 
     # Convertir le hash hexadécimal en une chaîne de 8 caractères
-    for i in range(0, passwordLenght * BYTES_PER_HEX_PAIR, BYTES_PER_HEX_PAIR):  # On prend 2 caractères hex à chaque fois (pour 1 octet)
-        # Prendre chaque byte du hash, le convertir en entier et l'utiliser pour indexer liste_complete
-        morceau = hash_hex[i:i+BYTES_PER_HEX_PAIR]
-        index = int(morceau, HEX_BASE) % taille_liste  # Utiliser modulo pour rester dans la taille de la liste
-        mot_de_passe += liste_complete[index]  # Ajouter le caractère correspondant
+    for element in range(0, password_lenght * BYTES_PER_HEX_PAIR, BYTES_PER_HEX_PAIR):  # On prend 2 caractères hex à chaque fois (pour 1 octet)
+        # Prendre chaque byte du hash, le convertir en entier et l'utiliser pour indexer full_list
+        part = hash_hex[element:element+BYTES_PER_HEX_PAIR]
+        index = int(part, HEX_BASE) % lenght_list  # Utiliser modulo pour rester dans la taille de la liste
+        password += full_list[index]  # Ajouter le caractère correspondant
 
-    return mot_de_passe
+    return password
 
-def lire_mdp_maitre_csv(fichier_csv):
+def Read_master_password_csv(fichier_csv):
     if os.path.exists(fichier_csv):
         with open(fichier_csv, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -50,19 +50,19 @@ def lire_mdp_maitre_csv(fichier_csv):
     return None
 
 
-def ecrire_mdp_maitre_csv(fichier_csv, mdp_maitre):
+def Write_master_password_csv(fichier_csv, master_password):
     with open(fichier_csv, mode='w', newline='') as csvfile:
         fieldnames = ['mot_de_passe_maitre', 'tag', 'date_modification']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         
         writer.writeheader()
-        writer.writerow({'mot_de_passe_maitre': mdp_maitre, 'tag': '', 'date_modification': '2024-10-15'})
+        writer.writerow({'mot_de_passe_maitre': master_password, 'tag': '', 'date_modification': '2024-10-15'})
 
-def demander_nouveau_mdp_maitre():
+def Ask_master_password_csv():
     while True:
-        nouveau_mdp = input("Entrez un nouveau mot de passe maître (pas d'espaces) : ").strip()
-        if ' ' in nouveau_mdp:
+        new_password = input("Entrez un nouveau mot de passe maître (pas d'espaces) : ").strip()
+        if ' ' in new_password:
             print("Le mot de passe maître ne peut pas contenir d'espaces.")
         else:
-            return nouveau_mdp
+            return new_password
 
