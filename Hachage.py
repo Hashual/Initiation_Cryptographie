@@ -50,4 +50,14 @@ def lire_mdp_maitre_csv(fichier_csv):
     return None
 
 
+def ecrire_mdp_maitre_csv(fichier_csv, mdp_maitre):
+    with open(fichier_csv, mode='w', newline='') as csvfile:
+        fieldnames = ['mot_de_passe_maitre', 'tag', 'date_modification']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        
+        writer.writeheader()
+        writer.writerow({'mot_de_passe_maitre': mdp_maitre, 'tag': '', 'date_modification': '2024-10-15'})
+
+
+
 
