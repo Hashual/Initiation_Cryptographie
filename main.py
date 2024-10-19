@@ -12,8 +12,10 @@ if __name__ == "__main__":
     print("\nMENU :")
     print("1. Générer un mot de passe")
     print("2. Changer le mot de passe maître")
-    print("3. Brut force password")
-    print("4. Quitter")
+    print("3. Brut force password avec 1 tag et une taille de 1")
+    print("4. Brut force password avec 3 tags et une taille de 1")
+    print("5. Brut force password avec 3 tags et une taille de 2")
+    print("6. Quitter")
     choice = input()
     if choice == "1":
         print("Entrez le tag : ")
@@ -39,9 +41,15 @@ if __name__ == "__main__":
 
 
     elif choice == "3":
-        Brut_force_password()
+        Brut_force_password_one_tag_lenght1()
     
     elif choice == "4":
+        Brut_force_password_three_tag_lenght1()
+    
+    elif choice == "5":
+        Brut_force_password_three_tag_lenght2()
+    
+    elif choice == "6":
         print("Au revoir")
         
     
